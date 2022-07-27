@@ -16,27 +16,27 @@ Project was prepared for the blackpill dev board with STM32F401CCU.
 State machine is simple
 
 ```mermaid
-    stateDiagram-v2
-    [*] --> state_led_off
-    state_led_off --> state_led_blinking_slow
-    state_led_blinking_slow --> state_led_blinking_fast
-    state_led_blinking_fast --> action_led_on
-    action_led_on --> state_led_off
+   stateDiagram-v2
+   [*] --> state_led_off
+   state_led_off --> state_led_blinking_slow
+   state_led_blinking_slow --> state_led_blinking_fast
+   state_led_blinking_fast --> state_led_on
+   state_led_on --> state_led_off
 ```
 
 definition in cpp:
-    
+
 ```cpp
 class BlinkingLED {
 public:
-	auto operator()(){
-		return make_transition_table(
-			 *"state_led_off"_s + event<timer_event> = "state_led_blinking_slow"_s
-			, "state_led_blinking_slow"_s + event<timer_event> = "state_led_blinking_fast"_s
-			, "state_led_blinking_fast"_s + event<timer_event> / action_led_on = "state_led_on"_s
-			, "state_led_on"_s + event<timer_event> / action_led_off = "state_led_off"_s
-		);
-	}
+   auto operator()(){
+     return make_transition_table(
+       *"state_led_off"_s + event<timer_event> = "state_led_blinking_slow"_s
+      , "state_led_blinking_slow"_s + event<timer_event> = "state_led_blinking_fast"_s
+      , "state_led_blinking_fast"_s + event<timer_event> / action_led_on = "state_led_on"_s
+      , "state_led_on"_s + event<timer_event> / action_led_off = "state_led_off"_s
+   );
+   }
 };
 
 sm<BlinkingLED> state_machine;
@@ -48,9 +48,9 @@ Event and actions definitions:
 struct timer_event {};
 
 auto action_led_on = [] {
-		HAL_GPIO_WritePin(GPIO_LED_GPIO_Port, GPIO_LED_Pin, GPIO_PIN_RESET);
+   HAL_GPIO_WritePin(GPIO_LED_GPIO_Port, GPIO_LED_Pin, GPIO_PIN_RESET);
 };
 auto action_led_off = [] {
-		HAL_GPIO_WritePin(GPIO_LED_GPIO_Port, GPIO_LED_Pin, GPIO_PIN_SET);
+   HAL_GPIO_WritePin(GPIO_LED_GPIO_Port, GPIO_LED_Pin, GPIO_PIN_SET);
 };
 ```
