@@ -1,4 +1,4 @@
-### State Machine Library (SML) Hello Word on STM32
+### State Machine Library (SML) Hello World on STM32
 
 This is example STM32 C++ project using a boost::sml state machine library.
 
@@ -8,6 +8,7 @@ SML is header only library, so you need download end extract library, update inc
 
 More info [https://boost-ext.github.io/sml/tutorial.html](https://boost-ext.github.io/sml/tutorial.html)
 
+Program changes a light of onboard LED accordingly to the current state.
 Project was prepared for the blackpill dev board with STM32F401CCU.
 
 #### State machine definition
